@@ -10,30 +10,33 @@ public class AuthorDA{
         return authorMap;
     }
 
-    public AuthorDA(String name){
+    public AuthorDA(){
+        authorMap = new HashMap<>();
+        readAuthorFIle();
+    }
+
+    private void readAuthorFIle(){
         try {
             Scanner authorFile = new Scanner(new FileReader("/workspaces/HashMapLab/Author.csv"));
-
-            authorMap = new HashMap<>();
-
             authorFile.nextLine();
-
-            Integer key = 0;
+           
             while (authorFile.hasNext()){
-                String authorData = new String();
-                authorData = authorFile.nextLine();
+                String authorData = authorFile.nextLine();
+                String[] authorDataSpecific = authorData.split(",");
 
-                String[] authorDataSpecific = new String[2];
-                authorDataSpecific = authorData.split(",");
-
-                if (name.equals(authorDataSpecific[0].trim())){
+                if (authorDataSpecific.length >= 2) {
+                    String name = authorDataSpecific[0].trim();
+                    String bio = authorDataSpecific[1].trim();
+            
                     Author author = new Author();
-                    author.setBio(authorDataSpecific[1].trim());
+                    author.setName(name);
+                    author.setBio(bio);
                 
-                authorMap.put(name+key, readAuthorFile(author));
-                    key++;
+                    authorMap.put(name, author);
                 }
             }
+
+            authorFile.close();
         }
 
         catch (FileNotFoundException e){
@@ -42,23 +45,4 @@ public class AuthorDA{
         }
     }
 
-    private Author readAuthorFile(Author author) throws FileNotFoundException{
-        Scanner authorFile = new Scanner(new FileReader("/workspaces/HashMapLab/Author.csv"));
-
-        authorFile.nextLine();
-
-        while (authorFile.hasNext()){
-            String authorData = new String();
-            authorData = authorFile.nextLine();
-
-            String[] authorDataSpecific = new String[2];
-            authorDataSpecific = authorData.split(",");
-
-            if (author.getName().equals(authorDataSpecific[0].trim())){
-                author.setBio(authorDataSpecific[1].trim());
-                break;
-            }
-        }
-        return author;
-    }
 }

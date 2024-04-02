@@ -3,8 +3,17 @@ import java.util.HashMap;
 public class Book{
     private String isbn;
     private String title;
+    private Author author;
     private HashMap<String, Book> bookMap;
     private HashMap<String, Author> authorMap;
+    
+    public Author getAuthor(){
+        return author;
+    }
+
+    public void setAuthor(Author author){
+        this.author = author;
+    }
     
     public String getISBN(){
         return isbn;
